@@ -66,7 +66,6 @@ export class GenAI extends GoogleGenerativeAI{
 
     private messageHandler(response: string): string{
         let responseSplited: string[] = response.trim().split("::");
-        console.log(responseSplited);
 
         if(responseSplited[2].trim() == "Não") return "Não";
 
