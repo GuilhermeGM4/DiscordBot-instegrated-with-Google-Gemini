@@ -28,6 +28,6 @@ export class CommandHandler{
     }
 
     private handleHelp(){
-        return "Comandos: help, translate";
+        return "Comandos: help, translate, poem, safe";
     }
 }
