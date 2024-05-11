@@ -4,15 +4,17 @@ import { Events } from "discord.js"
 import { Bot } from "./structure/Bot";
 import { GenAI } from "./structure/GenAI";
 import { CommandHandler } from "./structure/CommandHandler";
+import * as dotenv from "dotenv"
+dotenv.config();
 
 const configImport: any = fs.readFileSync("./src/config.json", "utf8");
 const config: any = JSON.parse(configImport);
 
 //initializing discord.js
-const bot: Bot = new Bot(config.api.discord);
+const bot: Bot = new Bot(process.env.DISCORD_TOKEN as string);
 
 //initializing gemini api
-const genAI: GenAI = new GenAI(config.api.gemini, 'gemini-1.0-pro');
+const genAI: GenAI = new GenAI(process.env.GEMINI_TOKEN as string, 'gemini-1.0-pro');
 
 //now the bot is ready to be used
 bot.once(Events.ClientReady, readyClient =>{

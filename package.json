@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.11.1",
-    "discord.js": "^14.15.2"
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",

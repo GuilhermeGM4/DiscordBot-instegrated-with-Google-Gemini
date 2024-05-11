@@ -1,10 +1,12 @@
 import { GenAI } from "./GenAI";
 import * as fs from "fs"
+import * as dotenv from "dotenv"
+dotenv.config();
 
 export class CommandHandler{
     private configImport: any = fs.readFileSync("./src/config.json", "utf8");
     private config: any = JSON.parse(this.configImport);
-    private genAI = new GenAI(this.config.api.gemini, 'gemini-1.5-pro-latest');
+    private genAI = new GenAI(process.env.GEMINI_TOKEN as string, 'gemini-1.5-pro-latest');
     
     constructor(){}
 
