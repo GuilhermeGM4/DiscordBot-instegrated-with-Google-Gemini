@@ -48,7 +48,7 @@ bot.on('messageCreate', async message => {
     textArray.shift();
     messageText = textArray.join(" ");
     const answer: string = await commandHandler.handleCommand(messageText)
-    console.log(answer);
+    
     message.reply({
         content: answer
     });

@@ -10,12 +10,13 @@ export class CommandHandler{
 
     public async handleCommand(input: string): Promise<string>{
         let inputList: string[] = input.split(" ");
+
         if(inputList[0] == "help" && inputList[1] == undefined) return this.handleHelp();
 
         const command: string = inputList[0];
         inputList.shift();
         const prompt: string = inputList.join(" ");
-        let answer: string = "teste";
+        let answer: string = "";
         try{
             answer = await this.genAI.helperChat([command, prompt]);
         }catch(e){
