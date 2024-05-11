@@ -1,6 +1,4 @@
 import { BitFieldResolvable, Client, GatewayIntentsString, IntentsBitField, Partials } from "discord.js";
-// import * as fs from "fs"
-
 export class Bot extends Client{
     constructor(apiKey: string){
         super({
@@ -12,12 +10,4 @@ export class Bot extends Client{
         });
         this.login(apiKey);
     }
-
-    // private start(){
-    //     const configImport: any = fs.readFileSync("./src/config.json", "utf8");
-    //     const config: any = JSON.parse(configImport);
-
-    //     const discordApi: string = config.api.discord;
-    //     this.login(discordApi);
-    // }
 }

@@ -5,7 +5,6 @@ dotenv.config();
 
 export class CommandHandler{
     private configImport: any = fs.readFileSync("./src/config.json", "utf8");
-    private config: any = JSON.parse(this.configImport);
     private genAI = new GenAI(process.env.GEMINI_TOKEN as string, 'gemini-1.5-pro-latest');
     
     constructor(){}

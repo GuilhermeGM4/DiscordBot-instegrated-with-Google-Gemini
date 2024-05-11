@@ -29,7 +29,6 @@ export class GenAI extends GoogleGenerativeAI{
     }
 
     public async verifySpeech(prompt: any): Promise<string>{
-        // let parts: Part[] = this.parts;
         let parts: Part[] = [];
         parts = parts.concat(this.harassmentParts);
 
@@ -114,10 +113,6 @@ export class GenAI extends GoogleGenerativeAI{
         const response: EnhancedGenerateContentResponse = result.response;
 
         let answer: string = response.text();
-        // console.log(answer);
-        // let answerArray: string[] = answer.split("::");
-        // console.log(answerArray);
-        // answer = answerArray.join(" ");
 
         return answer;
     }

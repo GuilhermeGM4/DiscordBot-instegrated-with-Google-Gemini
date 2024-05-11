@@ -1,5 +1,4 @@
 import * as fs from "fs"
-import { EnhancedGenerateContentResponse, GenerateContentResult } from "@google/generative-ai";
 import { Events } from "discord.js"
 import { Bot } from "./structure/Bot";
 import { GenAI } from "./structure/GenAI";
@@ -36,7 +35,6 @@ bot.on('messageCreate', async message => {
 
             if(answer == "Não") return;
 
-            // message.channel.send(messageText);
             message.reply({
                 content: answer
             });
