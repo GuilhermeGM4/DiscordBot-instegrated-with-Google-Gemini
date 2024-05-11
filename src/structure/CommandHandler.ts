@@ -8,23 +8,18 @@ export class CommandHandler{
     
     constructor(){}
 
-    public handleCommand(command: string): string{
-        const commandList: string[] = command.split(" ");
-        if(commandList[1] == "help"){
-            if(commandList[2] != undefined){
-                this.handleHelp(true);
-            }
-            this.handleHelp()
-        }
-        return "";
+    public async handleCommand(input: string): Promise<string>{
+        let inputList: string[] = input.split(" ");
+        if(inputList[1] == "help" && inputList[2] == undefined) return this.handleHelp();
+
+        const command: string = inputList[0];
+        inputList.shift();
+        const prompt: string = inputList.join(" ");
+        let answer: string = await this.genAI.helperChat([command, prompt]);
+        return answer;
     }
 
-    private handleHelp(ai: boolean = false){
-        if (ai){
-            console.log("IA será utilizada.");
-            return;
-        }
-
-        console.log("IA não utilizada");
+    private handleHelp(){
+        return "Comandos: help, translate";
     }
 }

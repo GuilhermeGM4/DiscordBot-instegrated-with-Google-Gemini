@@ -26,22 +26,30 @@ bot.on('messageCreate', async message => {
 
     const commandHandler: CommandHandler = new CommandHandler();
 
-    let messageText = message.toString();
+    let messageText: string = message.toString();
 
     if (!message.content.startsWith(config.prefix + " ")){
         try{
-            messageText = await genAI.verifySpeech(messageText);
+            let answer: string = await genAI.verifySpeech(messageText)
 
-            if(messageText == "Não") return;
+            if(answer == "Não") return;
 
             // message.channel.send(messageText);
             message.reply({
-                content: messageText
+                content: answer
             });
         } catch(e){
             console.error(e);
         }
+        return;
     }
 
-    commandHandler.handleCommand(messageText);
+    let textArray: string[] = messageText.split(" ");
+    textArray.shift();
+    messageText = textArray.join(" ");
+    const answer: string = await commandHandler.handleCommand(messageText)
+    console.log(answer);
+    message.reply({
+        content: answer
+    });
 });

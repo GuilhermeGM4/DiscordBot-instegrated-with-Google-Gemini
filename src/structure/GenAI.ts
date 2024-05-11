@@ -6,7 +6,8 @@ export class GenAI extends GoogleGenerativeAI{
 
     private config: any = this.importConfig();
 
-    private parts: Part[] = this.config.parts;
+    private harassmentParts: Part[] = this.config.harassmentParts;
+    private helperParts: Part[] = this.config.helperParts;
 
     constructor(apiKey: string, model: string){
         super(apiKey);
@@ -30,7 +31,7 @@ export class GenAI extends GoogleGenerativeAI{
     public async verifySpeech(prompt: any): Promise<string>{
         // let parts: Part[] = this.parts;
         let parts: Part[] = [];
-        parts = parts.concat(this.parts);
+        parts = parts.concat(this.harassmentParts);
 
         const generationConfig: GenerationConfig = this.config.generation;
         const safetySettings: SafetySetting[]= [
@@ -61,7 +62,7 @@ export class GenAI extends GoogleGenerativeAI{
         });
 
         const response: EnhancedGenerateContentResponse = result.response;
-        return await this.messageHandler(response.text());
+        return this.messageHandler(response.text());
     }
 
     private messageHandler(response: string): string{
@@ -74,5 +75,50 @@ export class GenAI extends GoogleGenerativeAI{
         newResponse = ResponseArray.join(" ");
 
         return newResponse;
+    }
+
+    public async helperChat(input: string[]): Promise<any>{
+        let parts: Part[] = this.helperParts;
+        parts = parts.concat(this.harassmentParts);
+        const safetySettings: SafetySetting[]= [
+            {
+                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            }
+        ];
+
+        const generationConfig: GenerationConfig = this.config.generation;
+        parts.push(
+            {text: "::comando:: " + input[0]},
+            {text: "::prompt::" + input[1]}
+        );
+
+        const result: GenerateContentResult = await this.model.generateContent({
+            contents: [{role: "user", parts}],
+            generationConfig,
+            safetySettings
+        });
+
+        const response: EnhancedGenerateContentResponse = result.response;
+
+        let answer: string = response.text();
+        // console.log(answer);
+        // let answerArray: string[] = answer.split("::");
+        // console.log(answerArray);
+        // answer = answerArray.join(" ");
+
+        return answer;
     }
 }
