@@ -3,6 +3,7 @@ import { EnhancedGenerateContentResponse, GenerateContentResult } from "@google/
 import { Events } from "discord.js"
 import { Bot } from "./structure/Bot";
 import { GenAI } from "./structure/GenAI";
+import { CommandHandler } from "./structure/CommandHandler";
 
 const configImport: any = fs.readFileSync("./src/config.json", "utf8");
 const config: any = JSON.parse(configImport);
@@ -23,6 +24,8 @@ bot.once(Events.ClientReady, readyClient =>{
 bot.on('messageCreate', async message => {
     if (message.author.bot) return;
 
+    const commandHandler: CommandHandler = new CommandHandler();
+
     let messageText = message.toString();
 
     if (!message.content.startsWith(config.prefix + " ")){
@@ -39,4 +42,6 @@ bot.on('messageCreate', async message => {
             console.error(e);
         }
     }
+
+    commandHandler.handleCommand(messageText);
 });
