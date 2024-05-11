@@ -18,7 +18,7 @@ export class CommandHandler{
         const command: string = inputList[0];
         inputList.shift();
         const prompt: string = inputList.join(" ");
-        let answer: string = "";
+        let answer: string = "Não foi possivel gerar uma resposta.";
         try{
             answer = await this.genAI.helperChat([command, prompt]);
         }catch(e){

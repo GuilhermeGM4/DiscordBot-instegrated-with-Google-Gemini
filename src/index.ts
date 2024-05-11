@@ -49,7 +49,12 @@ bot.on('messageCreate', async message => {
     let textArray: string[] = messageText.split(" ");
     textArray.shift();
     messageText = textArray.join(" ");
-    const answer: string = await commandHandler.handleCommand(messageText)
+    let answer: string = "Não foi possivel gerar a resposta.";
+    try{
+        answer = await commandHandler.handleCommand(messageText)
+    }catch(e){
+        console.error(e);
+    }
     
     message.reply({
         content: answer
